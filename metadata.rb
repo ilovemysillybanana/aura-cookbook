@@ -1,0 +1,7 @@
+name 'aura-cookbook'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'all_rights'
+description 'Installs/Configures aura-cookbook'
+long_description 'Installs/Configures aura-cookbook'
+version '0.1.0'
