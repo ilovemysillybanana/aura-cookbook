@@ -36,13 +36,23 @@ end
 mysql_service "#{node['mysql']['name']}" do
   instance "#{node['mysql']['name']}"
   version "#{node['mysql']['version']}"
-  port "#{node['mysql']['port']}"#{node['mabi']['home']}
+  bind_address "#{node['mysql']['address']}"
+  port "#{node['mysql']['port']}"
+  initial_root_password "#{node['mysql']['password']}"
   action [:create, :start]
+end
+
+git "#{node['mabi']['home']}/aura/" do
+  repository "#{node['aura']['git-url']}"
+  reference "#{node['aura']['branch']}"
+  user "#{node['mabi']['user']}"
+  group "#{node['mabi']['group']}"
+  action :sync
 end
 
 bash 'compile and build db' do
   code <<-EOH
-  xbuild #{node['mabi']['home']}/Aura.sln
+  xbuild #{node['mabi']['home']}/aura/Aura.sln
   mysql -h #{node['mysql']['address']} -u root -p#{node['mysql']['password']} < #{node['mabi']['home']}/aura/sql/main.sql
   EOH
 end
